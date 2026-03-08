@@ -12,6 +12,4 @@ python-jose==3.3.0
 
 python-multipart==0.0.12
 
-fastapi-security==0.5.0
-
 tzdata==2025.2

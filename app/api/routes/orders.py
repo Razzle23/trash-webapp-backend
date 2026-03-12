@@ -169,7 +169,7 @@ async def list_orders(
             scheduled_at=o.scheduled_at,
             price=o.price,
             payment=o.payment.value,
-            bags=order.bags,
+            bags=o.bags,
             created_at=o.created_at,
         )
         for o in items

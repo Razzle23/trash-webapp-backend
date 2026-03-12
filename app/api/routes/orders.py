@@ -173,31 +173,6 @@ async def list_orders(
         for o in items
     ]
 
-
-@router.get("/{order_id}", response_model=OrderOut)
-async def get_order(
-    order_id: int,
-    db: AsyncSession = Depends(get_db),
-    user_id: int = Depends(get_current_user_id),
-):
-    user = await db.scalar(select(User).where(User.id == user_id))
-    if not user:
-        raise HTTPException(status_code=404, detail="User not found")
-
-    order = await db.scalar(select(Order).where(Order.id == order_id, Order.customer_id == user.id))
-    if not order:
-        raise HTTPException(status_code=404, detail="Order not found")
-
-    return OrderOut(
-        id=order.id,
-        public_number=order.public_number,
-        status=order.status.value,
-        scheduled_at=order.scheduled_at,
-        price=order.price,
-        payment=order.payment.value,
-        created_at=order.created_at,
-    )
-
 @router.get("/active", response_model=OrderOut | None)
 async def get_active_order(
     db: AsyncSession = Depends(get_db),
@@ -228,3 +203,28 @@ async def get_active_order(
         payment=order.payment.value,
         created_at=order.created_at,
     )
+
+@router.get("/{order_id}", response_model=OrderOut)
+async def get_order(
+    order_id: int,
+    db: AsyncSession = Depends(get_db),
+    user_id: int = Depends(get_current_user_id),
+):
+    user = await db.scalar(select(User).where(User.id == user_id))
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    order = await db.scalar(select(Order).where(Order.id == order_id, Order.customer_id == user.id))
+    if not order:
+        raise HTTPException(status_code=404, detail="Order not found")
+
+    return OrderOut(
+        id=order.id,
+        public_number=order.public_number,
+        status=order.status.value,
+        scheduled_at=order.scheduled_at,
+        price=order.price,
+        payment=order.payment.value,
+        created_at=order.created_at,
+    )
+

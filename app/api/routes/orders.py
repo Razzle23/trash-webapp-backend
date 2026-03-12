@@ -197,3 +197,34 @@ async def get_order(
         payment=order.payment.value,
         created_at=order.created_at,
     )
+
+@router.get("/active", response_model=OrderOut | None)
+async def get_active_order(
+    db: AsyncSession = Depends(get_db),
+    user_id: int = Depends(get_current_user_id),
+):
+    user = await db.scalar(select(User).where(User.id == user_id))
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    order = await db.scalar(
+        select(Order)
+        .where(
+            Order.customer_id == user.id,
+            Order.status.in_([OrderStatus.created, OrderStatus.accepted])
+        )
+        .order_by(Order.created_at.desc())
+    )
+
+    if not order:
+        return None
+
+    return OrderOut(
+        id=order.id,
+        public_number=order.public_number,
+        status=order.status.value,
+        scheduled_at=order.scheduled_at,
+        price=order.price,
+        payment=order.payment.value,
+        created_at=order.created_at,
+    )

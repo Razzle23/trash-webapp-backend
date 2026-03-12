@@ -46,8 +46,4 @@ async def update_customer_profile(
         is_blocked=user.is_blocked,
         house_id=user.house_id,
         executor_online=user.executor_online,
-        entrance=user.entrance,
-        floor=user.floor,
-        apartment=user.apartment,
-        comment=user.comment,
     )   

@@ -23,4 +23,8 @@ async def me(db: AsyncSession = Depends(get_db), user_id: int = Depends(get_curr
         is_blocked=user.is_blocked,
         house_id=user.house_id,
         executor_online=user.executor_online,
+        entrance=user.entrance,
+        floor=user.floor,
+        apartment=user.apartment,
+        comment=user.comment,
     )

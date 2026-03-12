@@ -9,6 +9,10 @@ class MeResponse(BaseModel):
     is_blocked: bool
     house_id: int | None
     executor_online: bool
+    entrance: Optional[str] = None
+    floor: Optional[str] = None
+    apartment: Optional[str] = None
+    comment: Optional[str] = None
 
 class CustomerProfileUpdate(BaseModel):
     name: str = Field(min_length=1, max_length=64)

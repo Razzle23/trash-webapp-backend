@@ -15,4 +15,5 @@ class OrderOut(BaseModel):
     scheduled_at: datetime
     price: int
     payment: str
+    bags: int
     created_at: datetime

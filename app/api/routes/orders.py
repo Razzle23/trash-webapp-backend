@@ -225,6 +225,7 @@ async def get_order(
         scheduled_at=order.scheduled_at,
         price=order.price,
         payment=order.payment.value,
+        bags=order.bags,
         created_at=order.created_at,
     )
 
